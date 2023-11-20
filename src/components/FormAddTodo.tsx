@@ -65,7 +65,8 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
 
             <button
                 title="delete database"
-                onClick={() => {
+                onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                    event.preventDefault()
                     if (!confirm('Are you sure you want to DELETE database?')) return
 
                     indexedDB.deleteDatabase(IndexedDBSettings.name)
