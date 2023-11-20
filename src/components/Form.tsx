@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import uuid from 'react-uuid'
 import { FaTrashAlt } from 'react-icons/fa'
 import dynamic from 'next/dynamic'
