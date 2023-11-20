@@ -33,11 +33,11 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
     const { toast } = useToastify()
 
     return (
-        <form className="flex justify-between w-full">
+        <form className="flex justify-between w-full flex-wrap-reverse md:flex-nowrap">
             <input
                 className={`border-2 ${
                     message.messages.warning ? 'border-red-600' : 'border-gray-200'
-                }  focus:outline-none focus:ring-1 focus:border-green-500 w-11/12 h-10 p-2`}
+                } focus:outline-none focus:ring-1 mt-2 md:mt-0 focus:border-green-500 w-full md:w-11/12 h-10 p-2`}
                 name="todo"
                 id="todo"
                 type="text"
@@ -50,7 +50,7 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
             <button
                 title="add new todo"
                 onClick={onClick}
-                className="flex justify-center items-center ml-2 border-green-600 border-2 w-12 h-10 rounded-md bg-green-500 text-zinc-50 hover:bg-green-600"
+                className="flex flex-1 md:flex-none justify-center items-center md:ml-2 border-green-600 border-2 w-12 h-10 rounded-md bg-green-500 text-zinc-50 hover:bg-green-600"
             >
                 <FaPlus />
             </button>
@@ -58,7 +58,7 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
             <button
                 title="import todos list"
                 onClick={loadTodosFromApi}
-                className="flex justify-center items-center ml-1 border-green-600 border-2 w-12 h-10 rounded-md bg-blue-400 text-zinc-50 hover:bg-blue-600"
+                className="flex flex-1 md:flex-none mx-4 justify-center items-center md:ml-1 border-green-600 border-2 w-12 h-10 rounded-md bg-blue-400 text-zinc-50 hover:bg-blue-600"
             >
                 <FaCodePullRequest />
             </button>
@@ -72,7 +72,7 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
                     indexedDB.deleteDatabase(IndexedDBSettings.name)
                     toast('database deleted successfuly', 'info')
                 }}
-                className="flex justify-center items-center ml-1 border-red-600 border-2 w-12 h-10 rounded-md bg-red-400 text-zinc-50 hover:bg-red-600"
+                className="flex flex-1 md:flex-none justify-center items-center md:ml-1 border-red-600 border-2 w-12 h-10 rounded-md bg-red-400 text-zinc-50 hover:bg-red-600"
             >
                 <div className="delete-database">
                     <FaDatabase className="database-icon text-fuchsia-200" />
