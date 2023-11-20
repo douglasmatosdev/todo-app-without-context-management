@@ -10,7 +10,7 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
     const { onClick, onChange, value } = props
 
     return (
-        <form className="flex justify-between">
+        <form className="flex justify-between w-full">
             <input
                 className="border-2 border-gray-200 focus:outline-none focus:ring-1 focus:border-green-500 w-11/12 h-10 p-2 "
                 name="todo"
@@ -22,7 +22,7 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
             />
             <button
                 onClick={onClick}
-                className="ml-8 border-green-600 border-2 w-16 h-10 rounded-md bg-green-500 text-white hover:bg-green-600"
+                className="ml-8 border-green-600 border-2 w-16 h-10 rounded-md bg-green-500 text-zinc-50 hover:bg-green-600"
             >
                 Add
             </button>

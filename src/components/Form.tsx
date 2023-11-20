@@ -83,16 +83,21 @@ export default function Form(): JSX.Element {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center bg-white dark:bg-[#222] w-7/12 drop-shadow-2xl p-8 rounded-md">
-            {messages.warning}
+        <div className="flex flex-col items-center justify-center bg-white dark:bg-[#222] w-10/12 md:w-7/12 max-w-5xl drop-shadow-2xl p-4 md:p-8 rounded-md">
+            <span className="w-full">{messages.warning}</span>
+
             <FormAddTodo onChange={formHandleInputChange} onClick={formHandleButtonAddClick} value={formInputValue} />
 
-            <div className={`${todos.length && 'mt-8'}`}>
+            <div className={`w-full ${todos.length && 'mt-8'}`}>
                 {todos.length ? <h1>Todos</h1> : null}
-                <div>
+
+                <div className={`${todos.length && 'mt-4'}`}>
                     {todos.map(todo => {
                         return (
-                            <div key={todo.id} className="flex p-2 justify-between items-center">
+                            <div
+                                key={todo.id}
+                                className="flex w-full justify-between items-center [&:not(:last-child)]:mb-4"
+                            >
                                 <input
                                     onChange={() => hanldeCheckTodo(todo.id)}
                                     type="checkbox"
@@ -101,7 +106,7 @@ export default function Form(): JSX.Element {
                                     checked={todo.checked}
                                 />
                                 <input
-                                    className="flex-1 mx-8 px-1 border-2 border-gray-200 focus:outline-none focus:ring-1 focus:border-green-500"
+                                    className="flex-1 text-zinc-300 dark:focus:text-white mx-2 md:mx-8 px-1 bg-transparent focus:outline-none focus:ring-1 focus:border-green-500"
                                     name="todo-edit"
                                     id="todo-edit"
                                     type="text"
