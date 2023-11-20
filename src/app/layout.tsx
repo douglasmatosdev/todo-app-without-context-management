@@ -8,7 +8,8 @@ import { ToastContainer } from 'react-toastify'
 
 export const metadata: Metadata = {
     title: 'Todo',
-    description: 'Simple todo application'
+    description: 'Simple todo application',
+    manifest: '/manifest.json'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
