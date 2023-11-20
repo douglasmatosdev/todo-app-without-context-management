@@ -59,7 +59,7 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
             <button
                 title="import todos list"
                 onClick={loadTodosFromApi}
-                className="flex flex-1 md:flex-none mx-4 justify-center items-center md:ml-1 border-green-600 border-2 w-12 h-10 rounded-md bg-blue-400 text-zinc-50 hover:bg-blue-600"
+                className="flex flex-1 md:flex-none mx-4 md:mx-0 justify-center items-center md:ml-1 border-green-600 border-2 w-12 h-10 rounded-md bg-blue-400 text-zinc-50 hover:bg-blue-600"
             >
                 <FaCodePullRequest />
             </button>
