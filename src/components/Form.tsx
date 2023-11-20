@@ -162,6 +162,7 @@ export default function Form(): JSX.Element {
             <span className="w-full">{messages.warning}</span>
 
             <FormAddTodo
+                setTodos={setTodos}
                 onChange={formHandleInputChange}
                 onClick={formHandleButtonAddClick}
                 value={formInputValue}
