@@ -1,7 +1,9 @@
 'use client'
 export enum IndexedDBSettings {
     name = 'todos-db',
-    talbe = 'todos',
-    index = 'id',
-    version = 1
+    tableTodos = 'todos',
+    todosIndex = 'id',
+    checkedAllIndex = 'checked',
+    version = 1,
+    tableCheckeAll = 'checkedAll'
 }

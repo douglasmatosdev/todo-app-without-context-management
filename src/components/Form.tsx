@@ -5,7 +5,7 @@ import { FaTrashAlt } from 'react-icons/fa'
 import dynamic from 'next/dynamic'
 import indexedDB from '@/database/indexedDB'
 import { useCreateIndexedDB } from '@/hooks/useCreateIndexedDB'
-import { useGetIndexedDBData } from '@/hooks/useGetIndexedDBData'
+import { useGetIndexedDBCheckedAllData, useGetIndexedDBTodoData } from '@/hooks/useGetIndexedDBData'
 import { useToastify } from '@/utils/useToastify'
 
 // https://stackoverflow.com/questions/66374123/warning-text-content-did-not-match-server-im-out-client-im-in-div/66374800#66374800
@@ -16,15 +16,50 @@ const initialMessagesState = {
     warning: ''
 }
 
+const initialCheckedAllState: CheckedAll = {
+    isCheckedAll: false,
+    disabled: true
+}
+
 export default function Form(): JSX.Element {
     const [formInputValue, setFormInputValue] = useState('')
     const [todos, setTodos] = useState<Todo[]>([])
     const [messages, setMessages] = useState(initialMessagesState)
+    const [checkAll, setCheckAll] = useState<CheckedAll>(initialCheckedAllState)
 
     const { toast } = useToastify()
 
     useCreateIndexedDB()
-    useGetIndexedDBData(setTodos)
+    useGetIndexedDBTodoData(setTodos)
+    useGetIndexedDBCheckedAllData(setCheckAll, initialCheckedAllState)
+
+    const loadTodosFromApi = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        event.preventDefault()
+
+        fetch(
+            'https://raw.githubusercontent.com/douglasmatosdev/todo-app-without-context-management/main/src/__mocks__/data.json'
+        )
+            .then(respose => respose.json())
+            .then((json: Todo[]) => {
+                const isDuplicate = todos.find(todo => json.map(j => j.id).includes(todo.id))
+
+                if (isDuplicate) {
+                    toast('You have already imported this data!', 'warning')
+                } else {
+                    const jsonChangeId = json.map(j => ({ ...j, id: uuid() }))
+
+                    setTodos([...todos, ...jsonChangeId])
+
+                    jsonChangeId.forEach((todo, index) => {
+                        setTimeout(() => {
+                            indexedDB.save(todo)
+                        }, 300 * index)
+                    })
+
+                    toast('Todos imported successfuly!!!', 'success')
+                }
+            })
+    }
 
     const formHandleButtonAddClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         event.preventDefault()
@@ -69,14 +104,18 @@ export default function Form(): JSX.Element {
         toast('Todo delete successfuly!', 'info')
     }
 
-    const hanldeCheckTodo = (id: string): void => {
+    const handleCheckTodo = (id: string): void => {
         const todoToUpdate = todos.find(todo => todo.id === id) as Todo
         todoToUpdate!.checked = !todoToUpdate.checked
 
         setTodos(prev => prev.map(todo => (todo.id === id ? { ...todoToUpdate } : todo)))
 
+        const newCheckedAll = { isCheckedAll: false, disabled: true }
+        setCheckAll(newCheckedAll)
+
         setTimeout(() => {
             indexedDB.update(todoToUpdate)
+            indexedDB.checkedAll(newCheckedAll)
         }, 500)
     }
 
@@ -91,6 +130,33 @@ export default function Form(): JSX.Element {
         }, 500)
     }
 
+    const handleRemoveAll = (): void => {
+        todos.forEach((todo, index) => {
+            setTimeout(() => {
+                indexedDB.delete(todo.id, setTodos)
+            }, 300 * index)
+        })
+        const newCheckedAll = { isCheckedAll: false, disabled: true }
+        setCheckAll(newCheckedAll)
+        toast('All todos has deleted successfuly', 'info')
+    }
+
+    const handleCheckAll = (): void => {
+        const newCheckedAll = { isCheckedAll: !checkAll.isCheckedAll, disabled: false }
+        setCheckAll(newCheckedAll)
+
+        const todosUpdated = todos.map(todo => ({ ...todo, checked: !checkAll.isCheckedAll }))
+
+        todosUpdated.forEach((todo, index) => {
+            setTimeout(() => {
+                indexedDB.update(todo)
+            }, 300 * index)
+        })
+
+        setTodos(todosUpdated)
+        indexedDB.checkedAll(newCheckedAll)
+    }
+
     return (
         <div className="flex flex-col items-center justify-center bg-white dark:bg-[#222] w-10/12 md:w-7/12 max-w-5xl drop-shadow-2xl p-4 md:p-8 rounded-md">
             <span className="w-full">{messages.warning}</span>
@@ -99,13 +165,31 @@ export default function Form(): JSX.Element {
                 onChange={formHandleInputChange}
                 onClick={formHandleButtonAddClick}
                 value={formInputValue}
+                loadTodosFromApi={loadTodosFromApi}
                 message={{ messages, setMessages, initialMessagesState }}
             />
 
             <div className={`w-full ${todos.length && 'mt-8'}`}>
-                {todos.length ? <h1>Todos</h1> : null}
+                {todos.length ? <h1 className="mb-4">Todos</h1> : null}
 
-                <div className={`${todos.length && 'mt-4'}`}>
+                {todos.length ? (
+                    <div className="flex justify-between items-center ml-2 mr-2 border-b-2 pb-2">
+                        <label htmlFor="checked-all">
+                            <input
+                                onChange={handleCheckAll}
+                                type="checkbox"
+                                name="checked-all"
+                                id="checked-all"
+                                checked={checkAll.isCheckedAll}
+                                title="mark all todos as checked"
+                            />
+                        </label>
+                        <button onClick={handleRemoveAll} title="delete all todos">
+                            <FaTrashAlt className="dark:text-red-200 text-red-500 hover:text-red-800 dark:hover:text-red-500" />
+                        </button>
+                    </div>
+                ) : null}
+                <div>
                     {todos.map(todo => {
                         return (
                             <div
@@ -113,7 +197,7 @@ export default function Form(): JSX.Element {
                                 className="flex w-full justify-between items-center [&:not(:last-child)]:mb-4 hover:bg-slate-100 dark:hover:bg-slate-700 p-2"
                             >
                                 <input
-                                    onChange={() => hanldeCheckTodo(todo.id)}
+                                    onChange={() => handleCheckTodo(todo.id)}
                                     type="checkbox"
                                     name="checked"
                                     id="checked"
