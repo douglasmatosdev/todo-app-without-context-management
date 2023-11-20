@@ -2,19 +2,15 @@
 
 import { PiSunDimFill } from 'react-icons/pi'
 import { BiSolidMoon } from 'react-icons/bi'
-import { useTheme } from 'next-themes'
+import { useToggleSystemOrAppTheme } from '@/hooks/useToggleSystemOrAppTheme'
 
 const ThemeSwitch = (): JSX.Element => {
-    const { theme, setTheme } = useTheme()
+    const { theme, toggleTheme } = useToggleSystemOrAppTheme()
 
-    const toggleTheme = (): void => {
-        setTheme(theme === 'light' || theme === 'system' ? 'dark' : 'light')
-    }
-
-    const isActive = theme === 'light' || theme === 'system'
+    const isLight = theme === 'light'
 
     const switchClasses = `flex items-center justify-center w-6 h-6 bg-white rounded-full transform ${
-        isActive ? 'translate-x-0' : 'translate-x-6'
+        isLight ? 'translate-x-0' : 'translate-x-6'
     } transition-transform duration-500 ease-in-out`
 
     return (
@@ -23,7 +19,7 @@ const ThemeSwitch = (): JSX.Element => {
             onClick={toggleTheme}
         >
             <button className={switchClasses}>
-                {isActive ? (
+                {isLight ? (
                     <PiSunDimFill className="text-yellow-500" size={16} />
                 ) : (
                     <BiSolidMoon className="text-blue-800" />
