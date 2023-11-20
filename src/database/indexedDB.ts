@@ -50,7 +50,6 @@ const save = (todo: Todo): void => {
             tx.oncomplete = function () {
                 db.close()
             }
-            alert('Todo added!')
         }
     }
 }
@@ -108,7 +107,6 @@ const update = (todo: Todo): void => {
             tx.oncomplete = function () {
                 db.close()
             }
-            // alert('Todo updated!')
         }
     }
 }
