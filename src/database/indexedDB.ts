@@ -171,7 +171,7 @@ const getCheckedAll = (
 
             const value = is.Object(result)
                 ? result
-                : is.Array(result)
+                : is.Array(result) && (result as unknown as CheckedAll[]).length > 0
                   ? (result as unknown as CheckedAll[])[0]
                   : initialState
 

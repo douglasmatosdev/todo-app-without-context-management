@@ -46,11 +46,9 @@ export default function Form(): JSX.Element {
                 if (isDuplicate) {
                     toast('You have already imported this data!', 'warning')
                 } else {
-                    const jsonChangeId = json.map(j => ({ ...j, id: uuid() }))
+                    setTodos([...todos, ...json])
 
-                    setTodos([...todos, ...jsonChangeId])
-
-                    jsonChangeId.forEach((todo, index) => {
+                    json.forEach((todo, index) => {
                         setTimeout(() => {
                             indexedDB.save(todo)
                         }, 300 * index)
@@ -156,6 +154,7 @@ export default function Form(): JSX.Element {
         setTodos(todosUpdated)
         indexedDB.checkedAll(newCheckedAll)
     }
+    console.log(checkAll)
 
     return (
         <div className="flex flex-col items-center justify-center bg-white dark:bg-[#222] w-10/12 md:w-7/12 max-w-5xl drop-shadow-2xl p-4 md:p-8 rounded-md">
