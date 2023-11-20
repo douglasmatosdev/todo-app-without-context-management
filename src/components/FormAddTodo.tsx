@@ -74,11 +74,11 @@ const FormAddTodo = (props: FormAddTodoProps): JSX.Element => {
                     setTodos([])
                     toast('database deleted successfuly', 'info')
                 }}
-                className="flex flex-1 md:flex-none justify-center items-center md:ml-1 border-red-600 border-2 w-12 h-10 rounded-md bg-red-400 text-zinc-50 hover:bg-red-600"
+                className="group flex flex-1 md:flex-none justify-center items-center md:ml-1 border-2 w-12 h-10 rounded-md text-zinc-50 bg-red-500 hover:bg-red-300"
             >
                 <div className="delete-database">
-                    <FaDatabase className="database-icon text-fuchsia-200" />
-                    <FaTrashAlt className="trash-icon text-gray-800" />
+                    <FaDatabase className="database-icon text-gray-300 group-hover:text-gray-500" />
+                    <FaTrashAlt className="trash-icon text-gray-300 group-hover:text-gray-500 text-sm" />
                 </div>
             </button>
         </form>

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import uuid from 'react-uuid'
 import { FaTrashAlt } from 'react-icons/fa'
 import dynamic from 'next/dynamic'
@@ -154,10 +154,12 @@ export default function Form(): JSX.Element {
         setTodos(todosUpdated)
         indexedDB.checkedAll(newCheckedAll)
     }
-    console.log(checkAll)
 
     return (
         <div className="flex flex-col items-center justify-center bg-white dark:bg-[#222] w-10/12 md:w-7/12 max-w-5xl drop-shadow-2xl p-4 md:p-8 rounded-md">
+            <header className="w-full p-4 mb-8">
+                <h1 className="text-5xl font-salsa font-bold drop-shadow-sm text-zinc-500">Todo App</h1>
+            </header>
             <span className="w-full">{messages.warning}</span>
 
             <FormAddTodo
@@ -173,7 +175,7 @@ export default function Form(): JSX.Element {
                 {todos.length ? <h1 className="mb-4">Todos</h1> : null}
 
                 {todos.length ? (
-                    <div className="flex justify-between items-center ml-2 mr-2 border-b-2 pb-2">
+                    <div className="flex justify-between items-center ml-2 mr-1 border-b-2 pb-2">
                         <label htmlFor="checked-all">
                             <input
                                 onChange={handleCheckAll}

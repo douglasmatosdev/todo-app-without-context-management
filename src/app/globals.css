@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Salsa&display=swap');
+
 :root {
   /* --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -32,7 +34,6 @@ body {
     rgb(var(--background-start-rgb)); */
 }
 
-
 @layer components {
   .delete-database {
     position: relative;
@@ -43,11 +44,10 @@ body {
   .delete-database .trash-icon {
     position: absolute;
     top: calc(50% - 16px / 2);
-    left: calc(50% - 16px / 2);
+    left: calc(50% - 22px / 2);
   }
   .delete-database .trash-icon {
     top: calc(50% - 10px);
-    left: calc(50%);
-    font-size: 12px;
+    left: calc(50% + 2px);
   }
 }
