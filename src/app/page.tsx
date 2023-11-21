@@ -28,7 +28,7 @@ export default function Home(): JSX.Element {
             </section>
 
             <footer className="w-full flex flex-col items-center justify-center bg-zinc-100 py-4 mt-8">
-                <span>
+                <span className="text-gray-600">
                     Developed by <i className="text-gray-500">Douglas Matos da Silva, {new Date().getFullYear()}</i>
                 </span>
                 <Link
