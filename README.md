@@ -30,9 +30,10 @@ this application is a PWA and can be installed on any smartphone.
 
 
 ## Mobile
-
-<img src="./docs/todo-app-mobile.jpeg" alt="drawing" width="300"/>
+<img src="./docs/todo-app-mobile-light-mode.jpeg" alt="drawing" width="300"/>
+<img src="./docs/todo-app-mobile-dark-mode.jpeg" alt="drawing" width="300"/>
 
 ## Desktop
 
-![Todo App Desktop](./docs/todo-app-desktop.png)
+![Todo App Desktop](./docs/todo-app-desktop-light-mode.png)
+![Todo App Desktop](./docs/todo-app-desktop-dark-mode.png)
